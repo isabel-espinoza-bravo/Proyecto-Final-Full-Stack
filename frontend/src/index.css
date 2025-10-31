@@ -1,0 +1,27 @@
+/* Importa Bootstrap y los íconos */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Colores suaves del tema */
+body {
+  background-color: #e8f2e7;
+  font-family: 'Poppins', sans-serif;
+  color: #5a3e36;
+}
+
+header {
+  background-color: #f6d6c8;
+}
+
+.card {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.btn-outline-secondary {
+  background-color: rgb(233, 246, 227);
+}
+
+footer {
+  background-color: #f8f1f6;
+}
