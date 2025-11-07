@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       // Petición al backend
-      const res = await axios.post("http://localhost:4000/api/users/login", {
+      const res = await axios.post("https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/login", {
         email,
         password,
       });
