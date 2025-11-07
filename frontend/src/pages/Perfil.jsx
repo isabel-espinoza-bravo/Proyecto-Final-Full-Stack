@@ -90,7 +90,7 @@ const Perfil = () => {
     setSuccess("");
     try {
       await axios.post(
-        "http://localhost:4000/api/bookings/nueva",
+        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/nueva",
         {
           destino,
           fechaInicio,
@@ -119,7 +119,7 @@ const Perfil = () => {
 
     try {
       await axios.put(
-        `http://localhost:4000/api/bookings/cancelar/${id}`,
+        `https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/cancelar/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
