@@ -36,7 +36,7 @@ const Perfil = () => {
   const obtenerReservas = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/bookings/mis-reservas",
+        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/mis-reservas",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReservas(res.data);
@@ -142,7 +142,7 @@ const Perfil = () => {
     setSuccess("");
     try {
       const res = await axios.put(
-        "http://localhost:4000/api/users/update-profile",
+        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/update-profile",
         {
           nombre,
           email,
