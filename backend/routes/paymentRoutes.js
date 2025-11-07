@@ -34,10 +34,10 @@ router.post("/create_preference", async (req, res) => {
       })),
       
      back_urls: {
-       success: "https://travel-ecommerce-isa-frontend.onrender.com/success",
-       failure: "https://travel-ecommerce-isa-frontend.onrender.com/failure",
-       pending: "https://travel-ecommerce-isa-frontend.onrender.com/pending",
-      },
+  success: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/success",
+  failure: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/failure",
+  pending: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/pending",
+},
       auto_return: "approved",
       binary_mode: false,
       statement_descriptor: "TravelEcommerce",
