@@ -14,7 +14,7 @@ const SignUp = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/users/register", {
+      await axios.post("https://travel-ecommerce-isa-frontend.onrender.com//api/users/register", {
         nombre,
         email,
         password,
