@@ -34,10 +34,11 @@ router.post("/create_preference", async (req, res) => {
       })),
       
         back_urls: {
-        success: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/success",
-        failure: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/failure",
-        pending: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/pending",
+        success: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/success",
+        failure: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/failure",
+        pending: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/pending",
       },
+
      
       auto_return: "approved",
       binary_mode: false,
