@@ -27,7 +27,7 @@ const Success = () => {
 
         // 👇👇 CAMBIA ESTA URL SEGÚN LA OPCIÓN QUE ELIJAS
         await axios.post(
-  "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/nueva",
+  "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/payments/create_preference",
   body,
   token
     ? { headers: { Authorization: `Bearer ${token}` } }
