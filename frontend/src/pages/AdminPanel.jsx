@@ -13,7 +13,7 @@ const AdminPanel = () => {
 
   const obtenerTodasLasReservas = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/bookings/admin", {
+      const res = await axios.get("hhttps://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/admin", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setReservas(res.data);
@@ -33,7 +33,7 @@ const AdminPanel = () => {
     if (!window.confirm("¿Cancelar esta reserva?")) return;
     try {
       await axios.put(
-        `http://localhost:4000/api/bookings/cancelar/${id}`,
+        `https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/cancelar/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
