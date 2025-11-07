@@ -33,11 +33,12 @@ router.post("/create_preference", async (req, res) => {
         currency_id: "CLP",
       })),
       
-        back_urls: {
-  success: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/success",
-  failure: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/failure",
-  pending: "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/pending",
-},   
+    back_urls: {
+  success: "https://travel-ecommerce-isa-frontend.onrender.com/success",
+  failure: "https://travel-ecommerce-isa-frontend.onrender.com/failure",
+  pending: "https://travel-ecommerce-isa-frontend.onrender.com/pending",
+}
+
       auto_return: "approved",
       binary_mode: false,
       statement_descriptor: "TravelEcommerce",
