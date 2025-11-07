@@ -11,37 +11,51 @@ export default function Checkout() {
     n.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
 
   const handlePayment = async () => {
-    if (!email) {
-      Swal.fire({
-        icon: "warning",
-        title: "Ingresa tu correo electrónico",
-      });
-      return;
-    }
+  if (!email) {
+    Swal.fire({
+      icon: "warning",
+      title: "Ingresa tu correo electrónico",
+    });
+    return;
+  }
 
-    try {
-      const response = await axios.post("http://localhost:4000/api/payments/create_preference", {
-        email,
-        items: cart.map((item) => ({
-          titulo: item.nombre,
-          cantidad: 1,
-          precio: item.precio,
-        })),
-      });
+  try {
+    // ✅ Crear array con los nombres que espera el backend
+   const reservas = cart.map((item) => ({
+  destino: item.nombre,
+  fechaInicio: item.fechaInicio || new Date().toISOString().split("T")[0],
+  personas: item.personas || 1,
+  precioTotal: Number(item.precio),
+  imagen: item.imagen,
+}));
+localStorage.setItem("reservas", JSON.stringify(reservas));
 
-      const { init_point } = response.data;
-      clearCart();
-      window.location.href = init_point; // Redirige a Mercado Pago
-    } catch (error) {
-      console.error("Error creando preferencia de pago:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al iniciar el pago",
-        text: "Verifica el backend o tus credenciales de Mercado Pago.",
-      });
-    }
-  };
 
+    console.log("🧾 Reservas enviadas al backend:", reservas);
+
+    // Guardar reservas en localStorage (para PagoExitoso.jsx)
+    localStorage.setItem("reservas", JSON.stringify(reservas));
+    localStorage.setItem("emailReserva", email);
+
+    // Enviar preferencia a backend
+    const response = await axios.post(
+      "http://localhost:4000/api/payments/create_preference",
+      { items: reservas }
+    );
+
+    const { init_point } = response.data;
+
+    clearCart();
+    window.location.href = init_point;
+  } catch (error) {
+    console.error("❌ Error creando preferencia de pago:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error al iniciar el pago",
+      text: "Verifica el backend o tus credenciales de Mercado Pago.",
+    });
+  }
+};
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">💳 Checkout</h2>
@@ -80,6 +94,7 @@ export default function Checkout() {
     </div>
   );
 }
+
 
 
 

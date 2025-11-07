@@ -1,30 +1,51 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-export default function Pending() {
-  const navigate = useNavigate();
-
+const Pending = () => {
   return (
-    <div
-      className="d-flex flex-column justify-content-center align-items-center text-center vh-100"
-      style={{ backgroundColor: "#fff7e6" }}
-    >
-      <i
-        className="bi bi-hourglass-split text-warning mb-3"
-        style={{ fontSize: "5rem" }}
-      ></i>
-      <h2 className="mb-3 fw-bold" style={{ color: "#ff8f00" }}>
-        Pago pendiente de confirmación
-      </h2>
-      <p className="text-muted mb-4">
-        Tu pago está siendo procesado. Recibirás una confirmación pronto ⏱️
-      </p>
-      <button
-        className="btn btn-warning rounded-pill px-4"
-        onClick={() => navigate("/")}
+    <div style={{ backgroundColor: "#f8f1f6", minHeight: "100vh" }}>
+      {/* HEADER */}
+      <header
+        className="container-fluid py-3 px-4 shadow-sm"
+        style={{ backgroundColor: "#f6d6c8" }}
       >
-        Volver al inicio
-      </button>
+        <div className="d-flex justify-content-between align-items-center">
+          <img
+            src="/assets/Logo.jpeg"
+            alt="Logo Viajes"
+            style={{ height: "100px", width: "auto" }}
+          />
+          <h5 className="text-muted m-0">Viajes con Isa ✈️</h5>
+        </div>
+      </header>
+
+      {/* CONTENIDO */}
+      <div className="d-flex flex-column align-items-center justify-content-center text-center mt-5">
+        <div
+          className="p-5 rounded-4 shadow-lg"
+          style={{
+            backgroundColor: "#ffffff",
+            maxWidth: "600px",
+            border: "2px solid #f6d6c8",
+          }}
+        >
+          <h1 className="mb-3 text-warning">⌛ Pago pendiente</h1>
+          <p className="lead mb-4">
+            Tu pago está siendo procesado por Mercado Pago.  
+            Recibirás una confirmación cuando se acredite 💌
+          </p>
+
+          <Button
+            variant="secondary"
+            href="/"
+            className="rounded-pill px-4 mt-2"
+          >
+            Volver al inicio
+          </Button>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Pending;

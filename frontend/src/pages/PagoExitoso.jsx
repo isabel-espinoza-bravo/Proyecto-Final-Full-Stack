@@ -3,48 +3,57 @@ import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const Success = () => {
+const PagoExitoso = () => {
   useEffect(() => {
-  const registrarReservas = async () => {
-    const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
-    const email = localStorage.getItem("emailReserva") || "sin-email@viajesisa.cl";
-    const token = localStorage.getItem("token");
+    const registrarReservas = async () => {
+      const token = localStorage.getItem("token");
+      const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
 
-    if (reservas.length === 0) return;
-
-    try {
-      for (const reserva of reservas) {
-        const body = {
-          destino: reserva.destino || reserva.nombre,
-          fechaInicio: reserva.fechaInicio,
-          fechaFin: reserva.fechaFin || null,
-          personas: reserva.personas || 1,
-          precioTotal: reserva.precioTotal || reserva.precio || reserva.total || 0,
-          usuarioEmail: email,
-        };
-
-        console.log("💾 Enviando reserva al backend:", body);
-
-        // 👇👇 CAMBIA ESTA URL SEGÚN LA OPCIÓN QUE ELIJAS
-        await axios.post(
-  "https://calm-rabbit.ngrok-free.dev/api/bookings/nueva",
-  body,
-  token
-    ? { headers: { Authorization: `Bearer ${token}` } }
-    : undefined
-);
-
+      if (!token || reservas.length === 0) {
+        console.warn("⚠️ No hay reservas o usuario autenticado.");
+        return;
       }
 
-      localStorage.removeItem("reservas");
-      localStorage.removeItem("emailReserva");
-    } catch (err) {
-      console.error("❌ Error al registrar reservas:", err);
-    }
-  };
+      try {
+        for (const reserva of reservas) {
+          await axios.post(
+            "http://localhost:4000/api/bookings/nueva",
+            {
+              destino: reserva.destino,
+              fechaInicio: reserva.fechaInicio,
+              personas: reserva.personas,
+              total: reserva.total,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        }
 
-  registrarReservas();
-}, []);
+        Swal.fire({
+          icon: "success",
+          title: "Reservas confirmadas 🌸",
+          text: "Tu compra fue registrada correctamente.",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+
+        // Limpia reservas locales
+        localStorage.removeItem("reservas");
+      } catch (error) {
+        console.error("❌ Error al registrar reservas:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error al registrar reservas",
+          text: "Ocurrió un problema al guardar tu compra.",
+        });
+      }
+    };
+
+    registrarReservas();
+  }, []);
 
   return (
     <div style={{ backgroundColor: "#e8f2e7", minHeight: "100vh" }}>
@@ -92,8 +101,5 @@ const Success = () => {
   );
 };
 
-export default Success;
-
-
-
+export default PagoExitoso;
 

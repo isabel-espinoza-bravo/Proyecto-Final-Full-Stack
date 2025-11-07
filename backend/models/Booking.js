@@ -2,39 +2,31 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
   {
-    usuarioEmail: {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    destino: {
       type: String,
       required: true,
-      trim: true,
     },
-    items: [
-      {
-        titulo: { type: String, required: true },
-        cantidad: { type: Number, default: 1 },
-        precio: { type: Number, required: true },
-      },
-    ],
-    total: {
+    fechaInicio: {
+      type: Date,
+      required: true,
+    },
+    fechaFin: {
+      type: Date,
+      required: true,
+    },
+    precioTotal: {
       type: Number,
       required: true,
     },
     estado: {
       type: String,
-      enum: ["pendiente", "pagado"],
+      enum: ["pendiente", "confirmada", "cancelada"],
       default: "pendiente",
-    },
-    pagoId: {
-      type: String,
-      required: false,
-    },
-    codigoReserva: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    fechaPago: {
-      type: Date,
-      default: null,
     },
   },
   {
@@ -44,4 +36,5 @@ const bookingSchema = new mongoose.Schema(
 
 const Booking = mongoose.model("Booking", bookingSchema);
 export default Booking;
+
 

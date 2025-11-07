@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Failure = () => {
+const PagoFallido = () => {
   return (
     <div style={{ backgroundColor: "#fef7e6", minHeight: "100vh" }}>
       {/* HEADER */}
@@ -48,4 +48,5 @@ const Failure = () => {
   );
 };
 
-export default Failure;
+export default PagoFallido;
+

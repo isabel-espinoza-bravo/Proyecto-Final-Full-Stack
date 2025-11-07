@@ -1,3 +1,4 @@
+// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -18,6 +19,10 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Reservas from "./pages/Reservas.jsx";
 
+// 🔹 Nuevas páginas de pago
+import PagoExitoso from "./pages/PagoExitoso.jsx";
+import PagoFallido from "./pages/PagoFallido.jsx";
+import PagoPendiente from "./pages/PagoPendiente.jsx";
 
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
@@ -28,27 +33,30 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <CartProvider>
         <BrowserRouter>
           <Routes>
-            {/* Estructura principal */}
+            {/* RUTAS PRINCIPALES (anidadas en App) */}
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
-              <Route path="/catalog" element={<Catalog />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/failure" element={<Failure />} />
-              <Route path="/pending" element={<Pending />} />
-              <Route path="/reservas" element={<Reservas />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/perfil" element={<Perfil />} />
-              <Route path="/Reservas" element={<Reservas />} />
+              <Route path="catalog" element={<Catalog />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="reservas" element={<Reservas />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+              <Route path="Reservas" element={<Reservas />} />
             </Route>
+             <Route path="/perfil" element={<Perfil />} />
+
+            {/* 🔹 NUEVAS RUTAS DE PAGO DE MERCADO PAGO */}
+            <Route path="/success" element={<Success />} />
+            <Route path="/failure" element={<Failure />} />
+            <Route path="/pending" element={<Pending />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>
   </React.StrictMode>
 );
+
 
 
 

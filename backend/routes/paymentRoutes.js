@@ -1,4 +1,3 @@
-// backend/routes/paymentRoutes.js
 import express from "express";
 import mercadopago from "mercadopago";
 import dotenv from "dotenv";
@@ -6,57 +5,61 @@ import dotenv from "dotenv";
 dotenv.config();
 const router = express.Router();
 
-// Configurar Mercado Pago
+// 🔹 Configurar Mercado Pago
 mercadopago.configure({
   access_token: process.env.MP_ACCESS_TOKEN,
+  integrator_id: "dev_24c65fb163bf11ea96500242ac130004",
 });
 
-// Crear una preferencia de pago
+// 🔹 Crear preferencia de pago
 router.post("/create_preference", async (req, res) => {
   try {
-    const { items, email } = req.body;
+    const { items } = req.body;
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: "No se recibieron productos válidos." });
+    console.log("🧾 req.body recibido:", req.body);
+
+    // Validación básica
+    if (!items || items.length === 0) {
+      return res.status(400).json({ message: "No se recibieron productos para el pago." });
     }
 
+    // 🧩 Construir la preferencia correctamente
     const preference = {
-      items: items.map((i) => ({
-        title: i.titulo,
-        quantity: Number(i.cantidad || 1),
-        unit_price: Number(i.precio),
+      items: items.map((item) => ({
+        title: item.nombre || "Producto sin nombre",
+        picture_url: `http://localhost:5173${item.imagen || ""}`,
+        unit_price: Number(item.precio) || 0, // ✅ asegurar número
+        quantity: parseInt(item.personas) || 1, // ✅ asegurar entero
         currency_id: "CLP",
       })),
-      payer: {
-        email: email || "cliente@demo.com",
+      
+        back_urls: {
+        success: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/success",
+        failure: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/failure",
+        pending: "https://sonya-gametophoric-uncondescendingly.ngrok-free.dev/pending",
       },
-      back_urls: {
-        success: "http://localhost:5173/success",
-        failure: "http://localhost:5173/failure",
-        pending: "http://localhost:5173/pending",
-      },
+     
       auto_return: "approved",
+      binary_mode: false,
+      statement_descriptor: "TravelEcommerce",
     };
 
-    const resp = await mercadopago.preferences.create(preference);
+    console.log("📦 Enviando preferencia a Mercado Pago:", preference);
 
-    return res.json({
-      init_point: resp.body.init_point || resp.body.sandbox_init_point,
-    });
+    // Crear la preferencia en Mercado Pago
+    const response = await mercadopago.preferences.create(preference);
+
+    console.log("✅ Preferencia creada correctamente:", response.body.id);
+
+    res.json({ init_point: response.body.init_point });
   } catch (error) {
-    console.error("❌ Error creando preferencia:", error.response?.body || error.message);
-    res.status(500).json({ message: "Error al crear preferencia de pago" });
+    console.error("❌ Error al crear preferencia:", error);
+    return res.status(500).json({
+      message: "Error interno al crear preferencia",
+      detalles: error.message,
+    });
   }
 });
 
 export default router;
-
-
-
-
-
-
-
-
-
 

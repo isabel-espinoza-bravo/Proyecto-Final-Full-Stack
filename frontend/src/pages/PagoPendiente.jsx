@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Failure = () => {
+const PagoPendiente = () => {
   return (
-    <div style={{ backgroundColor: "#fef7e6", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#f8f1f6", minHeight: "100vh" }}>
       {/* HEADER */}
       <header
         className="container-fluid py-3 px-4 shadow-sm"
@@ -29,14 +29,14 @@ const Failure = () => {
             border: "2px solid #f6d6c8",
           }}
         >
-          <h1 className="mb-3 text-danger">❌ Pago fallido</h1>
+          <h1 className="mb-3 text-warning">⌛ Pago pendiente</h1>
           <p className="lead mb-4">
-            No pudimos procesar tu pago.  
-            Por favor intenta nuevamente o usa otro método 💳
+            Tu pago está siendo procesado por Mercado Pago.  
+            Recibirás una confirmación cuando se acredite 💌
           </p>
 
           <Button
-            variant="outline-dark"
+            variant="secondary"
             href="/"
             className="rounded-pill px-4 mt-2"
           >
@@ -48,4 +48,4 @@ const Failure = () => {
   );
 };
 
-export default Failure;
+export default PagoPendiente;

@@ -1,51 +1,56 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { Link, useNavigate } from "react-router-dom";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
-export default function Navbar() {
-  const { cart } = useCart() || { cart: [] }; // Previene error si el contexto no carga
+const Header = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const nombre = localStorage.getItem("nombre");
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("nombre");
+    navigate("/login");
+  };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light shadow-sm"
-      style={{ backgroundColor: "#f6d6c8" }}
-    >
-      <div className="container-fluid px-4">
-        {/* Logo */}
-        <Link to="/" className="navbar-brand fw-bold" style={{ color: "#5a3e36" }}>
-          ✈️ Viajes con Isa
-        </Link>
-
-        {/* Botones de navegación */}
-        <div className="d-flex align-items-center gap-3">
-          <Link to="/" className="btn btn-outline-secondary rounded-pill px-3">
-            Inicio
-          </Link>
-
-          <Link
-            to="/reservas"
-            className="btn btn-outline-secondary rounded-pill px-3"
-          >
-            Mis Reservas
-          </Link>
-
-          {/* Carrito */}
-          <Link
-            to="/cart"
-            className="btn btn-outline-success position-relative rounded-pill px-3"
-          >
-            <i className="bi bi-cart3"></i>
-            {cart.length > 0 && (
-              <span
-                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                style={{ fontSize: "0.7rem" }}
-              >
-                {cart.length}
-              </span>
+    <Navbar bg="light" expand="lg" className="py-3 shadow-sm">
+      <Container>
+        <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">
+          🌍 Chabela’s Bon Voyage
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            {!token ? (
+              <>
+                <Nav.Link as={Link} to="/login">
+                  Iniciar sesión
+                </Nav.Link>
+                <Nav.Link as={Link} to="/signup">
+                  Registrarse
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/perfil">
+                  Hola, {nombre?.split(" ")[0]} 👋
+                </Nav.Link>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  className="ms-2"
+                  onClick={cerrarSesion}
+                >
+                  Cerrar sesión
+                </Button>
+              </>
             )}
-          </Link>
-        </div>
-      </div>
-    </nav>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-}
+};
+
+export default Header;
