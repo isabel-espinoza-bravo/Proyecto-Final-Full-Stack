@@ -17,7 +17,7 @@ const PagoExitoso = () => {
       try {
         for (const reserva of reservas) {
           await axios.post(
-            "hhttps://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/nueva",
+            "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/nueva",
             {
               destino: reserva.destino,
               fechaInicio: reserva.fechaInicio,
