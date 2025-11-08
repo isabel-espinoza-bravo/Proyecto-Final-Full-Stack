@@ -173,7 +173,7 @@ const Perfil = () => {
         })}`
       : "—";
 
-  const getBadgeVariant = (estado) => {
+   const getBadgeVariant = (estado) => {
     if (!estado || estado === "Confirmada") return "success";
     if (estado === "Pendiente") return "warning";
     if (estado === "Cancelada") return "secondary";
@@ -186,9 +186,6 @@ const Perfil = () => {
 
       <div className="d-flex justify-content-end mb-3">
         <Button variant="danger" onClick={cerrarSesion}>
-          🏠 Inicio
-      </Button>
-    </div>
           Cerrar sesión
         </Button>
       </div>
