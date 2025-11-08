@@ -39,7 +39,7 @@ localStorage.setItem("reservas", JSON.stringify(reservas));
 
     // Enviar preferencia a backend
     const response = await axios.post(
-      "http://localhost:4000/api/payments/create_preference"",
+      "http://localhost:4000/api/payments/create_preference",
       { items: reservas }
     );
 
@@ -94,12 +94,3 @@ localStorage.setItem("reservas", JSON.stringify(reservas));
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
