@@ -11,8 +11,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ URL base del backend en Render (centralizada)
-  const API_URL = "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api";
+  // ✅ URL dinámica: usa .env en producción o localhost en desarrollo
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +22,8 @@ const Login = () => {
 
     try {
       // ✅ Petición al backend Render
-      const res = await axios.post(`${API_URL}/users/login`, { email, password });
+     const res = await axios.post("https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/login", {
+ email, password });
 
       // Guardar token y nombre en localStorage
       localStorage.setItem("token", res.data.token);
