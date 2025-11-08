@@ -7,57 +7,64 @@ export default function Checkout() {
   const { cart, total, clearCart } = useCart();
   const [email, setEmail] = useState("");
 
+  // ✅ URL del backend en Render (usa variable de entorno o fallback local)
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+
   const formatoCLP = (n) =>
     n.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
 
   const handlePayment = async () => {
-  if (!email) {
-    Swal.fire({
-      icon: "warning",
-      title: "Ingresa tu correo electrónico",
-    });
-    return;
-  }
+    if (!email) {
+      Swal.fire({
+        icon: "warning",
+        title: "Ingresa tu correo electrónico",
+      });
+      return;
+    }
 
-  try {
-    // ✅ Crear array con los nombres que espera el backend
-   const reservas = cart.map((item) => ({
-  destino: item.nombre,
-  fechaInicio: item.fechaInicio || new Date().toISOString().split("T")[0],
-  personas: item.personas || 1,
-  precioTotal: Number(item.precio),
-  imagen: item.imagen,
-}));
-localStorage.setItem("reservas", JSON.stringify(reservas));
+    try {
+      // ✅ Armar reservas con la estructura esperada por el backend
+      const reservas = cart.map((item) => ({
+        destino: item.nombre,
+        fechaInicio: item.fechaInicio || new Date().toISOString().split("T")[0],
+        personas: item.personas || 1,
+        precioTotal: Number(item.precio),
+        imagen: item.imagen,
+      }));
 
+      // Guardar reservas y correo en localStorage para usarlas en PagoExitoso.jsx
+      localStorage.setItem("reservas", JSON.stringify(reservas));
+      localStorage.setItem("emailReserva", email);
 
-    console.log("🧾 Reservas enviadas al backend:", reservas);
+      console.log("🧾 Reservas enviadas al backend:", reservas);
 
-    // Guardar reservas en localStorage (para PagoExitoso.jsx)
-    localStorage.setItem("reservas", JSON.stringify(reservas));
-    localStorage.setItem("emailReserva", email);
+      // ✅ Enviar preferencia de pago a tu backend en Render
+      const response = await axios.post(`${API_URL}/payments/create_preference`, {
+        items: reservas.map((r) => ({
+          title: r.destino,
+          quantity: 1,
+          unit_price: r.precioTotal,
+          currency_id: "CLP",
+        })),
+        payer: { email },
+      });
 
-    // Enviar preferencia a backend
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+      // ✅ Obtener el link de pago de Mercado Pago
+      const { init_point } = response.data;
 
-await axios.post(`${API_URL}/payments/create_preference`, body, {
-  headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-});
+      // Limpiar carrito y redirigir a la pasarela de pago
+      clearCart();
+      window.location.href = init_point;
+    } catch (error) {
+      console.error("❌ Error creando preferencia de pago:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al procesar el pago",
+        text: "No se pudo guardar la reserva antes del pago o el backend no respondió.",
+      });
+    }
+  };
 
-
-    const { init_point } = response.data;
-
-    clearCart();
-    window.location.href = init_point;
-  } catch (error) {
-    console.error("❌ Error creando preferencia de pago:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error al iniciar el pago",
-      text: "Verifica el backend o tus credenciales de Mercado Pago.",
-    });
-  }
-};
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">💳 Checkout</h2>
@@ -96,3 +103,5 @@ await axios.post(`${API_URL}/payments/create_preference`, body, {
     </div>
   );
 }
+
+
