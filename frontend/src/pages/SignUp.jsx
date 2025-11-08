@@ -14,7 +14,8 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   // ✅ URL base del backend Render
-  const API_URL = "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
