@@ -33,7 +33,8 @@ const Perfil = () => {
   const token = localStorage.getItem("token");
 
   // URL base del backend en Render
-  const API_URL = "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+
 
   // 👉 Obtener reservas desde backend
   const obtenerReservas = async () => {
