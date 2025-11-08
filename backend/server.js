@@ -12,7 +12,15 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com",
+    ],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("🌸 API Travel Ecommerce funcionando correctamente");
