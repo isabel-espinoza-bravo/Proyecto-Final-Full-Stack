@@ -182,14 +182,34 @@ const Perfil = () => {
   };
 
   return (
-    <Container className="my-5">
-      <h2 className="mb-4 text-center">Bienvenido, {nombre} 👋</h2>
+    const getBadgeVariant = (estado) => {
+  if (!estado || estado === "Confirmada") return "success";
+  if (estado === "Pendiente") return "warning";
+  if (estado === "Cancelada") return "secondary";
+  return "light";
+};
 
-      <div className="d-flex justify-content-end mb-3">
-        <Button variant="danger" onClick={cerrarSesion}>
-          Cerrar sesión
-        </Button>
-      </div>
+return (
+  <Container className="my-5">
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2 className="m-0">Bienvenido, {nombre} 👋</h2>
+
+      {/* 🔹 Botón para volver a la página de inicio */}
+      <Button
+        variant="outline-primary"
+        className="rounded-pill"
+        onClick={() => (window.location.href = "/")}
+      >
+        🏠 Inicio
+      </Button>
+    </div>
+
+    <div className="d-flex justify-content-end mb-3">
+      <Button variant="danger" onClick={cerrarSesion}>
+        Cerrar sesión
+      </Button>
+    </div>
+
 
       {/* 🧳 Formulario de nueva reserva */}
       <Card className="mb-4 shadow-sm">
