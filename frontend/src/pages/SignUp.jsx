@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Alert } from "react-bootstrap";
+import.meta.env.VITE_API_URL
 
 const SignUp = () => {
   const [nombre, setNombre] = useState("");
