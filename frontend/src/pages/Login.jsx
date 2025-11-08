@@ -11,30 +11,30 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // ✅ URL base del backend en Render (centralizada)
+  const API_URL = "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api";
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      // Petición al backend
-      const res = await axios.post("https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/login", {
-        email,
-        password,
-      });
+      // ✅ Petición al backend Render
+      const res = await axios.post(`${API_URL}/users/login`, { email, password });
 
-      // Guardar token y nombre del usuario
+      // Guardar token y nombre en localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("nombre", res.data.nombre);
+      localStorage.setItem("email", email);
 
-      // Mensaje de confirmación en consola (opcional)
       console.log("✅ Usuario autenticado:", res.data.nombre);
 
-      // Redirigir al perfil o a reservas
+      // Redirigir al perfil
       navigate("/perfil");
     } catch (err) {
-      console.error("❌ Error en login:", err.response?.data?.message || err.message);
-      setError(err.response?.data?.message || "Usuario o contraseña incorrecta");
+      console.error("❌ Error en login:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Credenciales incorrectas");
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,13 @@ const Login = () => {
           <Button variant="primary" type="submit" disabled={loading}>
             {loading ? (
               <>
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />{" "}
                 Ingresando...
               </>
             ) : (
@@ -84,11 +90,13 @@ const Login = () => {
       </Form>
 
       <p className="mt-3 text-center">
-        ¿No tienes cuenta? <a href="/signup">Regístrate</a>
+        ¿No tienes cuenta?{" "}
+        <a href="/signup" className="text-decoration-none">
+          Regístrate
+        </a>
       </p>
     </Container>
   );
 };
 
 export default Login;
-
