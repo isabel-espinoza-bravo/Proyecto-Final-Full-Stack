@@ -39,7 +39,7 @@ localStorage.setItem("reservas", JSON.stringify(reservas));
 
     // Enviar preferencia a backend
     const response = await axios.post(
-      "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/payments/create_preference",
+      "http://localhost:4000/api/payments/create_preference"",
       { items: reservas }
     );
 
