@@ -209,7 +209,7 @@ function App() {
         return;
       }
 
-      const res = await axios.get("http://localhost:4000/api/bookings/mis-reservas", {
+      const res = await axios.get("https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/mis-reservas", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -365,7 +365,7 @@ function App() {
               const email = e.target.email.value;
               const password = e.target.password.value;
               try {
-                await axios.post("http://localhost:4000/api/users/register", {
+                await axios.post("https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/register", {
                   nombre,
                   email,
                   password,
