@@ -1,6 +1,7 @@
 // src/pages/Perfil.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Table,
@@ -173,16 +174,8 @@ const Perfil = () => {
         })}`
       : "—";
 
-  // 🔹 Obtener color de badge por estado
-  const getBadgeVariant = (estado) => {
-    if (!estado || estado === "Confirmada") return "success";
-    if (estado === "Pendiente") return "warning";
-    if (estado === "Cancelada") return "secondary";
-    return "light";
-  };
-
-  return (
-    const getBadgeVariant = (estado) => {
+ const navigate = useNavigate();
+ const getBadgeVariant = (estado) => {
   if (!estado || estado === "Confirmada") return "success";
   if (estado === "Pendiente") return "warning";
   if (estado === "Cancelada") return "secondary";
@@ -191,10 +184,10 @@ const Perfil = () => {
 
 return (
   <Container className="my-5">
+    {/* fila con título y botón de inicio */}
     <div className="d-flex justify-content-between align-items-center mb-4">
       <h2 className="m-0">Bienvenido, {nombre} 👋</h2>
 
-      {/* 🔹 Botón para volver a la página de inicio */}
       <Button
         variant="outline-primary"
         className="rounded-pill"
@@ -204,12 +197,12 @@ return (
       </Button>
     </div>
 
+    {/* botón de cerrar sesión */}
     <div className="d-flex justify-content-end mb-3">
       <Button variant="danger" onClick={cerrarSesion}>
         Cerrar sesión
       </Button>
     </div>
-
 
       {/* 🧳 Formulario de nueva reserva */}
       <Card className="mb-4 shadow-sm">
