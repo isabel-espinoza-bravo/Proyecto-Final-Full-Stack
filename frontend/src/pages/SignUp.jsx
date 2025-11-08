@@ -1,9 +1,10 @@
-// src/pages/SignUp.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Alert } from "react-bootstrap";
-import.meta.env.VITE_API_URL
+
+// ✅ URL base del backend (Render o local)
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 const SignUp = () => {
   const [nombre, setNombre] = useState("");
@@ -13,17 +14,14 @@ const SignUp = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  // ✅ URL base del backend Render
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
-
-
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
     try {
-      await axios.post(`${API_URL}/users`, {
+      // ✅ Endpoint correcto para registrar usuario
+      await axios.post(`${API_URL}/users/register`, {
         nombre,
         email,
         password,
@@ -94,6 +92,8 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 };
 
 export default SignUp;
+
+
 
    
 
