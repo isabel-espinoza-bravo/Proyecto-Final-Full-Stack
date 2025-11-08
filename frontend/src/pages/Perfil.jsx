@@ -32,13 +32,15 @@ const Perfil = () => {
   const nombre = localStorage.getItem("nombre") || "";
   const token = localStorage.getItem("token");
 
-  // 👉 función que ya tenías: obtener desde backend
+  // URL base del backend en Render
+  const API_URL = "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api";
+
+  // 👉 Obtener reservas desde backend
   const obtenerReservas = async () => {
     try {
-      const res = await axios.get(
-        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/mis-reservas",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await axios.get(`${API_URL}/bookings/mis-reservas`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setReservas(res.data);
     } catch (error) {
       console.error("❌ Error al obtener reservas:", error);
@@ -51,20 +53,17 @@ const Perfil = () => {
     }
   };
 
-  // ✅ NUEVO: cargar primero lo que haya en localStorage
+  // ✅ Cargar primero lo que haya en localStorage
   useEffect(() => {
-    // 1) probar con misReservas
     const guardadas = JSON.parse(localStorage.getItem("misReservas") || "[]");
 
     if (guardadas.length > 0) {
       setReservas(guardadas);
       setLoading(false);
     } else {
-      // 2) si no hay misReservas, probamos con cart
       const carrito = JSON.parse(localStorage.getItem("cart") || "[]");
 
       if (Array.isArray(carrito) && carrito.length > 0) {
-        // el carrito tiene un formato un poco distinto, lo adaptamos rápido
         const adaptadas = carrito.map((item) => ({
           destino: item.nombre || item.destino || "Destino",
           precioTotal: item.precio || item.total || 0,
@@ -77,20 +76,19 @@ const Perfil = () => {
       }
     }
 
-    // 3) si hay token, sobreescribimos con lo real del backend
     if (token) {
       obtenerReservas();
     }
   }, []);
 
-  // 🔹 Crear nueva reserva manualmente
+  // 🔹 Crear nueva reserva
   const crearReserva = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
       await axios.post(
-        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/nueva",
+        `${API_URL}/bookings/nueva`,
         {
           destino,
           fechaInicio,
@@ -106,7 +104,7 @@ const Perfil = () => {
       setFechaInicio("");
       setFechaFin("");
       setPrecioTotal("");
-      obtenerReservas(); // refrescar tabla
+      obtenerReservas();
     } catch (error) {
       console.error("❌ Error al crear reserva:", error);
       setError(error.response?.data?.message || "No se pudo crear la reserva.");
@@ -119,7 +117,7 @@ const Perfil = () => {
 
     try {
       await axios.put(
-        `https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/bookings/cancelar/${id}`,
+        `${API_URL}/bookings/cancelar/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -142,7 +140,7 @@ const Perfil = () => {
     setSuccess("");
     try {
       const res = await axios.put(
-        "https://travel-ecommerce-viajes-con-isa-ndz6.onrender.com/api/users/update-profile",
+        `${API_URL}/users/update-profile`,
         {
           nombre,
           email,
@@ -161,7 +159,6 @@ const Perfil = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("nombre");
     localStorage.removeItem("email");
-    // si quieres dejar misReservas/cart, no los borres
     window.location.href = "/";
   };
 
@@ -173,7 +170,8 @@ const Perfil = () => {
         })}`
       : "—";
 
-   const getBadgeVariant = (estado) => {
+  // 🔹 Colores de estado
+  const getBadgeVariant = (estado) => {
     if (!estado || estado === "Confirmada") return "success";
     if (estado === "Pendiente") return "warning";
     if (estado === "Cancelada") return "secondary";
@@ -182,7 +180,17 @@ const Perfil = () => {
 
   return (
     <Container className="my-5">
-      <h2 className="mb-4 text-center">Bienvenido, {nombre} 👋</h2>
+      {/* Encabezado con botón de inicio */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="m-0">Bienvenido, {nombre} 👋</h2>
+        <Button
+          variant="outline-primary"
+          className="rounded-pill"
+          onClick={() => (window.location.href = "/")}
+        >
+          🏠 Inicio
+        </Button>
+      </div>
 
       <div className="d-flex justify-content-end mb-3">
         <Button variant="danger" onClick={cerrarSesion}>
@@ -190,7 +198,7 @@ const Perfil = () => {
         </Button>
       </div>
 
-      {/* 🧳 Formulario de nueva reserva */}
+      {/* 🧳 Nueva Reserva */}
       <Card className="mb-4 shadow-sm">
         <Card.Body>
           <Card.Title className="mb-3">Nueva Reserva</Card.Title>
@@ -397,6 +405,7 @@ const Perfil = () => {
 };
 
 export default Perfil;
+
 
 
 
