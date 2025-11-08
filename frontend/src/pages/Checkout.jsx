@@ -38,10 +38,12 @@ localStorage.setItem("reservas", JSON.stringify(reservas));
     localStorage.setItem("emailReserva", email);
 
     // Enviar preferencia a backend
-    const response = await axios.post(
-      "http://localhost:4000/api/payments/create_preference",
-      { items: reservas }
-    );
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+
+await axios.post(`${API_URL}/payments/create_preference`, body, {
+  headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+});
+
 
     const { init_point } = response.data;
 
