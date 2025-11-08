@@ -1,7 +1,6 @@
 // src/pages/Perfil.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import {
   Container,
   Table,
@@ -174,35 +173,25 @@ const Perfil = () => {
         })}`
       : "—";
 
- const navigate = useNavigate();
- const getBadgeVariant = (estado) => {
-  if (!estado || estado === "Confirmada") return "success";
-  if (estado === "Pendiente") return "warning";
-  if (estado === "Cancelada") return "secondary";
-  return "light";
-};
+  const getBadgeVariant = (estado) => {
+    if (!estado || estado === "Confirmada") return "success";
+    if (estado === "Pendiente") return "warning";
+    if (estado === "Cancelada") return "secondary";
+    return "light";
+  };
 
-return (
-  <Container className="my-5">
-    {/* fila con título y botón de inicio */}
-    <div className="d-flex justify-content-between align-items-center mb-4">
-      <h2 className="m-0">Bienvenido, {nombre} 👋</h2>
+  return (
+    <Container className="my-5">
+      <h2 className="mb-4 text-center">Bienvenido, {nombre} 👋</h2>
 
-      <Button
-        variant="outline-primary"
-        className="rounded-pill"
-        onClick={() => (window.location.href = "/")}
-      >
-        🏠 Inicio
+      <div className="d-flex justify-content-end mb-3">
+        <Button variant="danger" onClick={cerrarSesion}>
+          🏠 Inicio
       </Button>
     </div>
-
-    {/* botón de cerrar sesión */}
-    <div className="d-flex justify-content-end mb-3">
-      <Button variant="danger" onClick={cerrarSesion}>
-        Cerrar sesión
-      </Button>
-    </div>
+          Cerrar sesión
+        </Button>
+      </div>
 
       {/* 🧳 Formulario de nueva reserva */}
       <Card className="mb-4 shadow-sm">
