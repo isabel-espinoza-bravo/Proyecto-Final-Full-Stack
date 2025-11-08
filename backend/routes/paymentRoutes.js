@@ -33,12 +33,12 @@ router.post("/create_preference", async (req, res) => {
         currency_id: "CLP",
       })),
       
-     back_urls: {
+        back_urls: {
   success: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/success",
   failure: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/failure",
   pending: "https://travel-ecommerce-viajes-con-isa-kvb2.onrender.com/pending",
 },
-      auto_return: "approved",
+auto_return: "approved",
       binary_mode: false,
       statement_descriptor: "TravelEcommerce",
     };
